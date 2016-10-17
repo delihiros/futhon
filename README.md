@@ -10,3 +10,11 @@ Able to access to all the Python resources, e.g. numpy.
 ```
 python setup.py test
 ```
+
+## Primitives
+
+![class](./resources/classes.png)
+
+## Flow
+
+![flow](./resources/flow.png)
