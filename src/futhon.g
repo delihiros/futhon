@@ -7,7 +7,7 @@ start: sexpr;
 
 quoted: '\'' sexpr;
 
-symbol: '[\w.\-><\+\-\*\/\?!:=]+';
+symbol: '[@\w.\-><\+\-\*\/\?!:=]+';
 string: '".*?(?<!\\)(\\\\)*?"';
 regex_string: '\#' string;
 

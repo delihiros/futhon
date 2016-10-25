@@ -1,6 +1,7 @@
 import unittest
 import re
 import futhon_parser
+import datatypes
 
 
 class TestFuthonParser(unittest.TestCase):
@@ -57,6 +58,10 @@ class TestFuthonParser(unittest.TestCase):
         parser = futhon_parser.FuthonParser()
         self.assertIsInstance(parser.parse("(1 2 3)"), list)
         self.assertEqual(parser.parse("(1 2 3)"), [1, 2, 3])
+
+    def test_vector(self):
+        parser = futhon_parser.FuthonParser()
+        self.assertIsInstance(parser.parse("[1 2 3]"), datatypes.Vector)
 
     def test_hashmap(self):
         parser = futhon_parser.FuthonParser()

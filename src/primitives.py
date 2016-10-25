@@ -65,30 +65,13 @@ def _gt(args):
     return True
 
 
-def _and(args):
-    if len(args) == 0:
-        return True
-    for arg in args:
-        if not arg:
-            return arg
-    return True
-
-
-def _or(args):
-    if len(args) == 0:
-        return True
-    for arg in args:
-        if arg:
-            return arg
-    return False
-
-
 def _not(args):
     return not args[0]
 
 
 def _print(args):
-    sys.stdout.write(' '.join(args))
+    sys.stdout.write(''.join(args))
+
 
 def _read(args):
     return sys.stdin.readline()

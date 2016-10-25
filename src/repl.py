@@ -20,6 +20,8 @@ def __main__():
             sys.stdout.flush()
         except Exception as e:
             print(e)
+            sys.stdout.write("-> ")
+            sys.stdout.flush()
 
 if __name__ == "__main__":
     __main__()

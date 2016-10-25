@@ -37,6 +37,24 @@ class Symbol(FuthonObject):
         return not self.__eq__(self, other)
 
 
+class Vector(Sequence, list):
+
+    def __init__(self, *args, **kw):
+        list.__init__(self, *args, **kw)
+
+
+class Set(Collection, set):
+
+    def __init__(self, *args, **kw):
+        set.__init__(self, *args, **kw)
+
+
+class HashMap(Collection, dict):
+
+    def __init__(self, *args, **kw):
+        dict.__init__(self, *args, **kw)
+
+
 class Keyword(FuthonObject):
 
     def __init__(self, name):
@@ -76,6 +94,18 @@ def isCollection(o):
 
 def isSequence(o):
     return isinstance(o, Sequence)
+
+
+def isVector(o):
+    return isinstance(o, Vector)
+
+
+def isSet(o):
+    return isinstance(o, Set)
+
+
+def isHashMap(o):
+    return isinstance(o, HashMap)
 
 
 def isSymbol(o):

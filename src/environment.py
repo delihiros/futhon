@@ -11,6 +11,9 @@ class Environment():
             for bind, arg in zip(bindings, args):
                 self.env[bind] = arg
 
+    def __repr__(self):
+        return str(tuple(str(self.env), str(self.outer)))
+
     def set(self, symbol, val):
         self.env[symbol] = val
 
@@ -34,8 +37,6 @@ class GlobalEnvironment(Environment):
             datatypes.Symbol("="): primitives._eq,
             datatypes.Symbol("<"): primitives._lt,
             datatypes.Symbol(">"): primitives._gt,
-            datatypes.Symbol("and"): primitives._and,
-            datatypes.Symbol("or"): primitives._or,
             datatypes.Symbol("not"): primitives._not,
             datatypes.Symbol("print"): primitives._print,
             datatypes.Symbol("read"): primitives._read,

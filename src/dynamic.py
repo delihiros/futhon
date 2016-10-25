@@ -1,16 +1,22 @@
 import importlib
+import inspect
+
+
+def attribute_or_call(instance, attr, args):
+    at = getattr(instance, attr)
+    if inspect.ismethod(at):
+        return at(*args)
+    else:
+        return at
 
 
 def import_module(module_name):
     return importlib.import_module(module_name)
 
 
-def load_class(module, class_name):
-    components = class_name.split('.')
-    if module.__name__ != components[0]:
-        raise Exception("no module found: " + components[0])
+def load_class(module, rest):
     mod = module
-    for comp in components[1:]:
+    for comp in rest:
         mod = getattr(mod, comp)
     return mod
 

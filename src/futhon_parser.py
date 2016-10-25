@@ -56,13 +56,13 @@ class FuthonTransformer(plyplus.STransformer):
         return re.compile(node.tail[0][1:-1])
 
     def _vector(self, node):
-        return node.tail
+        return datatypes.Vector(node.tail)
 
     def _list(self, node):
         return node.tail
 
     def _hashmap(self, node):
-        hashmap = {}
+        hashmap = {}  # datatypes.HashMap()
         idx = 0
         while idx < len(node.tail):
             hashmap[node.tail[idx]] = node.tail[idx + 1]
@@ -70,7 +70,7 @@ class FuthonTransformer(plyplus.STransformer):
         return hashmap
 
     def _set(self, node):
-        return set(node.tail)
+        return datatypes.Set(node.tail)
 
     start = _start
     quoted = _quoted
@@ -92,11 +92,7 @@ class FuthonParser():
         self.transformer = FuthonTransformer()
 
     def parse(self, s, save=None):
-        try:
-            ast = self.grammar.parse(s)
-            if save:
-                ast.to_png_with_pydot(save)
-            return self.transformer.transform(ast)[0]
-        except Exception as e:
-            print(e)
-            return None
+        ast = self.grammar.parse(s)
+        if save:
+            ast.to_png_with_pydot(save)
+        return self.transformer.transform(ast)[0]
