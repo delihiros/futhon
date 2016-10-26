@@ -12,18 +12,20 @@ python setup.py test
 
 ## Example
 
-```
+```clojure
 (def np (import numpy))
 (def chainer (import chainer))
 
-(def x (np.array. [5]))
+(def l1 (chainer.links.Linear. 4 3))
+(def l2 (chainer.links.Linear. 3 2))
 
-(def take
-  (fn [n s]
-    (if (or (neg? n) (empty? s))
-      s
-      (cons (first s)
-            (take (dec n) (rest s))))))
+(def my-forward
+  (fn [x] (.__call__ l2 (.__call__ l1 x))))
+
+(def x (.astype (np.array. [[1 2 3 4]]) (.float32 np)))
+
+(.data (my-forward x))
+; [[-1.02830815  0.6110245 ]]
 ```
 
 ## Primitives

@@ -43,6 +43,10 @@ class Evaluator():
             if head.name == 'def':
                 env.set(expr[1], self.eval(expr[2], env))
                 return None
+            elif head.name == 'set-attribute!':
+                e = self.eval(expr[1], env)
+                setattr(e, self.eval(expr[2], env), self.eval(expr[3], env))
+                return None
             elif head.name == 'quote':
                 return expr[1]
             elif head.name == 'fn':
