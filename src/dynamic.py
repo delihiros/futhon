@@ -1,10 +1,11 @@
 import importlib
 import inspect
+import types
 
 
 def attribute_or_call(instance, attr, args):
     at = getattr(instance, attr)
-    if inspect.ismethod(at):
+    if inspect.ismethod(at) or isinstance(at, types.BuiltinFunctionType) or isinstance(at, types.BuiltinMethodType):
         return at(*args)
     else:
         return at
