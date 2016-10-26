@@ -4,6 +4,17 @@
 
 Futhon is a programming language designed for Natural Language Processing and Machine Learning.
 
+## Try!
+
+Python 3.5+ is required.
+
+```
+$ git clone https://github.com/delihiros/futhon.git
+$ cd futhon
+$ pip install plyplus
+$ python src/repl.py
+```
+
 ## Test
 
 ```
