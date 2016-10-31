@@ -30,17 +30,19 @@ class REPL():
                         self.stack.pop()
         if len(self.stack) == 0:
             try:
-                ast = self.parser.parse(self.lines)
-                self.lines = ""
-                result = self.ev.eval(ast, self.global_env)
-                print("# " + str(result))
-                sys.stdout.write("-> ")
-                sys.stdout.flush()
+                if self.lines.strip() != "":
+                    ast = self.parser.parse(self.lines)
+                    self.lines = ""
+                    result = self.ev.eval(ast, self.global_env)
+                    print("# " + str(result))
             except Exception as e:
                 print(e)
                 self.lines = ""
-                sys.stdout.write("-> ")
-                sys.stdout.flush()
+            sys.stdout.write("-> ")
+            sys.stdout.flush()
+        else:
+            sys.stdout.write("   ")
+            sys.stdout.flush()
 
 
 def __main__():
@@ -54,19 +56,6 @@ def __main__():
     for line in sys.stdin:
         repl.wait_or_run(line)
 
-#    sys.stdout.write("-> ")
-#    sys.stdout.flush()
-#    for line in sys.stdin:
-#        try:
-#            ast = parser.parse(line)
-#            result = ev.eval(ast, global_env)
-#            print("# " + str(result))
-#            sys.stdout.write("-> ")
-#            sys.stdout.flush()
-#        except Exception as e:
-#            print(e)
-#            sys.stdout.write("-> ")
-#            sys.stdout.flush()
 
 if __name__ == "__main__":
     __main__()

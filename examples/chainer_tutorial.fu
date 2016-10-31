@@ -1,0 +1,12 @@
+(def np (import numpy))
+(def chainer (import chainer))
+
+(def l1 (chainer.links.Linear 4 3))
+(def l2 (chainer.links.Linear 3 2))
+
+(def my-forward
+  (fn [x] (l2 (l1 x))))
+
+(def x (.astype (np.array [[1 2 3 4]]) np.float32))
+
+(.data (my-forward x))
