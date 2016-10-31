@@ -27,13 +27,13 @@ python setup.py test
 (def np (import numpy))
 (def chainer (import chainer))
 
-(def l1 (chainer.links.Linear. 4 3))
-(def l2 (chainer.links.Linear. 3 2))
+(def l1 (chainer.links.Linear 4 3))
+(def l2 (chainer.links.Linear 3 2))
 
 (def my-forward
-  (fn [x] (.__call__ l2 (.__call__ l1 x))))
+  (fn [x] (l2 (l1 x))))
 
-(def x (.astype (np.array. [[1 2 3 4]]) (.float32 np)))
+(def x (.astype (np.array [[1 2 3 4]]) np.float32))
 
 (.data (my-forward x))
 ; [[-1.02830815  0.6110245 ]]

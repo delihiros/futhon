@@ -1,14 +1,14 @@
 import sys
 
 
-def _plus(args):
+def _plus(*args):
     s = 0
     for arg in args:
         s += arg
     return s
 
 
-def _minus(args):
+def _minus(*args):
     if len(args) == 0:
         return 0
     s = args[0]
@@ -17,7 +17,7 @@ def _minus(args):
     return s
 
 
-def _div(args):
+def _div(*args):
     if len(args) == 0:
         return 0
     s = args[0]
@@ -26,7 +26,7 @@ def _div(args):
     return s
 
 
-def _mult(args):
+def _mult(*args):
     if len(args) == 0:
         return 1
     s = args[0]
@@ -35,7 +35,7 @@ def _mult(args):
     return s
 
 
-def _eq(args):
+def _eq(*args):
     if len(args) == 0:
         return True
     s = args[0]
@@ -45,7 +45,7 @@ def _eq(args):
     return True
 
 
-def _lt(args):
+def _lt(*args):
     if len(args) == 0:
         return True
     s = args[0]
@@ -55,7 +55,7 @@ def _lt(args):
     return True
 
 
-def _gt(args):
+def _gt(*args):
     if len(args) == 0:
         return True
     s = args[0]
@@ -65,13 +65,13 @@ def _gt(args):
     return True
 
 
-def _not(args):
+def _not(*args):
     return not args[0]
 
 
-def _print(args):
+def _print(*args):
     sys.stdout.write(''.join(args))
 
 
-def _read(args):
+def _read(*args):
     return sys.stdin.readline()

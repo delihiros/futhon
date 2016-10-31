@@ -17,7 +17,7 @@ class Evaluator():
                 bindings=function.args,
                 args=args)
             return self.eval(function.body, local_env)
-        return function(args)
+        return function(*args)
 
     def eval(self, expr, env):
         if not datatypes.isFuthonObj(expr):
@@ -47,6 +47,10 @@ class Evaluator():
                 e = self.eval(expr[1], env)
                 setattr(e, self.eval(expr[2], env), self.eval(expr[3], env))
                 return None
+            elif head.name == 'new':
+                v = self.eval(expr[1], env)
+                args = [self.eval(arg, env) for arg in expr[2:]]
+                return dynamic.make_instance(v, args)
             elif head.name == 'quote':
                 return expr[1]
             elif head.name == 'fn':
@@ -80,41 +84,25 @@ class Evaluator():
                 return v
             elif head.name == 'import':
                 return dynamic.import_module(expr[1].name)
-            elif head.name == 'load-class':
-                class_name = expr[1].name.split('.')
-                module = self.eval(datatypes.Symbol(class_name[0]), env)
-                rest = expr[1].name.split('.')[1:]
-                return dynamic.load_class(module, rest)
-            elif head.name == 'new':
-                class_object = self.eval(expr[1], env)
-                args = [self.eval(arg, env) for arg in expr[2:]]
-                return dynamic.make_instance(class_object, args)
             elif head.name == 'count':
                 return len(expr[1])
             elif head.name == 'type':
                 return type(self.eval(expr[1], env))
-            elif head.name == '.':
-                obj = self.eval(expr[1], env)
-                attribute = expr[2].name
-                attr = dynamic.attribute(obj, attribute)
-                if callable(attr):
+            elif '.' in head.name:
+                if head.name == '.':
+                    instance = self.eval(expr[1], env)
+                    method_name = expr[2].name
                     args = [self.eval(arg, env) for arg in expr[3:]]
-                    return attr(args)
+                    return dynamic.attribute_or_call(instance, method_name, args)
+                elif head.name[0] == '.':
+                    instance = self.eval(expr[1], env)
+                    method_name = head.name[1:]
+                    args = [self.eval(arg, env) for arg in expr[2:]]
+                    return dynamic.attribute_or_call(instance, method_name, args)
                 else:
-                    return attr
-            elif head.name[0] == '.':
-                instance = self.eval(expr[1], env)
-                method_name = head.name[1:]
-                args = [self.eval(arg, env) for arg in expr[2:]]
-                return dynamic.attribute_or_call(instance, method_name, args)
-            elif head.name[-1] == '.':
-                class_name_chain = head.name.split('.')[:-1]
-                class_object = dynamic.load_class(
-                    self.eval(
-                        datatypes.Symbol(class_name_chain[0]), env),
-                    class_name_chain[1:])
-                args = [self.eval(arg, env) for arg in expr[1:]]
-                return dynamic.make_instance(class_object, args)
+                    f = self.eval(head, env)
+                    args = [self.eval(arg, env) for arg in expr[1:]]
+                    return f(*args)
             else:
                 args = [self.eval(v, env) for v in expr[1:]]
                 return self.apply_function(env.get(head), args, env)

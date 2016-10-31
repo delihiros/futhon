@@ -1,5 +1,6 @@
 import datatypes
 import primitives
+import dynamic
 
 
 class Environment():
@@ -8,6 +9,11 @@ class Environment():
         self.env = env
         self.outer = outer
         if bindings and args:
+            if len(bindings) != len(args):
+                raise Exception(
+                    "environment takes same size of bindings and args.\n" +
+                    "given bindings: " + str(len(bindings)) + "\n" +
+                    "given args:     " + str(len(args)))
             for bind, arg in zip(bindings, args):
                 self.env[bind] = arg
 
@@ -20,6 +26,10 @@ class Environment():
     def get(self, symbol):
         if symbol in self.env:
             return self.env.get(symbol)
+        elif '.' in symbol.name:
+            name_chain = symbol.name.split('.')
+            v = self.env.get(datatypes.Symbol(name_chain[0]))
+            return dynamic.load_class(v, name_chain[1:])
         elif self.outer:
             return self.outer.get(symbol)
         raise Exception("undefined symbol: " + symbol.name)
