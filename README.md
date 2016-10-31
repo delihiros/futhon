@@ -11,7 +11,7 @@ Python 3.5+ is required.
 ```
 $ git clone https://github.com/delihiros/futhon.git
 $ cd futhon
-$ pip install plyplus
+$ pip install -r requirements.txt -r test-requirements.txt
 $ python src/repl.py
 ```
 
